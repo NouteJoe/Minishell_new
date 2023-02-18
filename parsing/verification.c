@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	s_double_quote(char *cmd)
+int	is_double_quote(char *cmd)
 {
 	int	i;
 	int	nb;

@@ -16,7 +16,7 @@ LIBFT = Libft/libft.a
 
 LDFLAGS = -L/goinfre/$(USER)/.brew/Cellar/readline/8.2.1/lib/
 CPPFLAGS = -I/goinfre/$(USER)/.brew/Cellar/readline/8.2.1/include
-CFLAG = -g -Wall -Wextra -Werror 
+CFLAG = -g -Wall -Wextra -Werror
 	
 SRCS =	srcs/main.c\
 		srcs/init_struct.c\

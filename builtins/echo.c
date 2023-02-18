@@ -16,9 +16,7 @@ void	echo(t_var *shell)
 {
 	while (shell->string)
 	{
-		printf("%s", shell->string->content);
-		
-			
+		printf("%s", shell->string->content);	
 		shell->string = shell->string->next;
 	}
 	//if (shell->flag->content == NULL)
