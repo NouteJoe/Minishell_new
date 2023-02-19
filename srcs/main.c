@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		if (cmd)
 			add_history(cmd);
-		if (read_cmd_user(&shell, tmp_env, cmd))
+		if (read_cmd_user(&shell, tmp_env, cmd) == 0)
 			exec(shell, tmp_env);
 		if (shell)
 			clean_shell(&shell);
