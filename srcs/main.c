@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:37:40 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/16 19:18:30 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:29:02 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		if (cmd)
 			add_history(cmd);
-		if (read_cmd_user(&shell, tmp_env, cmd) == 0)
+		if (read_cmd_user(&shell, tmp_env, cmd))
 			exec(shell, tmp_env);
 		if (shell)
 			clean_shell(&shell);

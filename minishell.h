@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:38:11 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/16 17:47:58 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:33:23 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,10 @@ void	init_struct(t_var **shell);
 char	**env_copy(char **envp);
 
 //----------------parsing----------------//
-// int parsing(t_var *shell, char **tmp_env);
-char	*parsing_true_path(char *cmd, char **diff_path);
-char	**parsing_access(char **envp);
 int		get_flag_cmd(t_var **shell, int i, char *cmd);
 int		get_cmd(t_var **shell, int i, char *cmd);
 int		read_cmd_user(t_var **shell, char **tmp_env, char *cmd);
-int 	get_space(t_var **tmp);
-
+int		get_space(t_var **tmp);
 
 //----------------execution----------------//
 void	exec(t_var *shell, char **tmp_env);
@@ -80,7 +76,7 @@ t_var	*ft_varnew(void);
 int		is_double_quote(char *cmd);
 int		is_simple_quote(char *cmd);
 int		is_forbidden_char(int i, char *cmd);
-int 	is_forbidden_char2(int i, char *cmd);
+int		is_forbidden_char2(int i, char *cmd);
 
 //----------------redir----------------//
 int		here_doc(t_var **shell, int i, char *cmd);
@@ -92,7 +88,7 @@ int		append(t_var **shell, int i, char *cmd);
 int		get_string_double(t_var **shell, int i, char *cmd, char **tmp_env);
 int		get_variable(char *cmd, int i, char **tmp_env, t_var **shell);
 int		get_string_simple(t_var **shell, int i, char *cmd);
-int 	get_string(t_var **shell, int i, char *cmd, char **tmp_env);
+int		get_string(t_var **shell, int i, char *cmd, char **tmp_env);
 //int scan_tmp_env(char **tmp_env, char *str, int j, t_var **shell);
 
 
@@ -111,6 +107,7 @@ void	update_oldpwd(char **tmp_env, char *tmp_pwd);
 char	*save_pwd(char **tmp_env);
 void	get_home(char **tmp_env);
 char	*create_new_pwd(char *tmp_pwd, char *string);
+char	*cd_absolute_path(char *string, char *path);
 
 //----------------utils----------------//
 char	*ft_find_path(char **env, char *cmd);

@@ -21,15 +21,14 @@ int get_string_double(t_var **shell, int i, char *cmd, char **tmp_env) {
   while (cmd[i] != '"') {
     if (cmd[i] == '$') {
      
-    if ((*shell)->string && (*shell)->string->content)
+    if ((*shell)->string->content)
       get_space(shell);///// erreur a modifier
         tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
         ft_lstadd_back(&(*shell)->string, tmp);
       
       i = get_variable(cmd, i, tmp_env, shell);
       start = i;
-    } 
-    else
+    } else
       i++;
   }
   tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
@@ -38,8 +37,7 @@ int get_string_double(t_var **shell, int i, char *cmd, char **tmp_env) {
   return (i);
 }
 
-int scan_tmp_env(char **tmp_env, char *str, int j, t_var **shell)
-{
+int scan_tmp_env(char **tmp_env, char *str, int j, t_var **shell) {
   t_list *tmp = NULL;
   char **tab = NULL;
   char *tmp2 = NULL;
@@ -56,34 +54,22 @@ int scan_tmp_env(char **tmp_env, char *str, int j, t_var **shell)
   }
   return (0);
 }
-void exit_statut(t_var **shell)
-{
-  t_list *number;
-  char *str;
-
-    str = malloc (sizeof(char) * 4); 
-    str = ft_itoa(g_exit_statut);
-    if ((*shell)->cmd_arg == NULL)
-      (*shell)->cmd_arg = str;
-    else 
-    { 
-      number = ft_lstnew((char *)ft_substr(str, 0, 4));
-      ft_lstadd_back(&(*shell)->string, number);
-    } 
-}
 
 int get_variable(char *cmd, int i, char **tmp_env, t_var **shell) 
 {
   int j = 0;
   char *str = NULL;
+  // char *nbr;
   int size = 0;
 
   i++;
-  if (cmd[i] == '?') 
-  {
-    exit_statut(shell);
-    i++;
+  /*nbr = ft_itoa(exit_statut);
+  if (cmd[i] == '?') {
+    while (nbr[j])
+      str[j] = nbr[j];
+    j++;
   }
+  i++;*/
   size = is_forbidden_char(size, cmd);
   str = malloc(sizeof(char) * size + 1);
   while (cmd[i] && cmd[i] != ' ' && cmd[i] != '|' && cmd[i] != '"' &&
@@ -128,8 +114,10 @@ int get_string(t_var **shell, int i, char *cmd, char **tmp_env) {
     }
     while (cmd[i] && cmd[i] != '<' && cmd[i] != '>' && cmd[i] != '\'' &&
            cmd[i] != '"' && cmd[i] != '|' && cmd[i] != ' ') {
-      if (cmd[i] == '$')
-      {
+      if (cmd[i] == '$') {
+        /* tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
+         ft_lstadd_back(&(*shell)->string, tmp);*/
+        // printf("test %s\n",(*shell)->string->content);
         i = get_variable(cmd, i, tmp_env, shell);
         start = i;
       }

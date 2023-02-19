@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:07:21 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/16 15:41:57 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:20:54 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ int	export(t_var *shell, char **tmp_env)
 		if (var_in_env(tmp_env, shell->string->content) == 0)
 			change_variable_in_env(tmp_env, shell->string->content);
 		else
-		{
 			new_env(shell, &tmp_env);
-			env(tmp_env);
-		}
 	}
 	return (0);
 }

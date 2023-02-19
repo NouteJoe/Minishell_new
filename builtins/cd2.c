@@ -6,11 +6,31 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 19:08:49 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/16 19:53:36 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/17 15:56:36 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*cd_absolute_path(char *string, char *path)
+{
+	char	**tab;
+	int		i;
+
+	i = 0;
+	tab = ft_split(string, '/');
+	string = ft_strjoin(getenv("HOME"), "/");
+	while (tab[++i])
+	{
+		string = ft_strjoin(string, tab[i]);
+		string = ft_strjoin(string, "/");
+	}
+	if (chdir(string) == -1)
+		printf("cd: no such file or directory\n");
+	else
+		return (string);
+	return (path);
+}
 
 void	change_directory(char **tmp_env)
 {
@@ -66,7 +86,7 @@ int	cd_2(t_var *shell, char **tmp_env, char *tmp_pwd)
 	}
 	else if (shell->string->content)
 	{
-		// path = create_new_pwd(tmp_pwd, shell->string->content);
+		path = create_new_pwd(tmp_pwd, shell->string->content);
 		if (chdir(path) == -1)
 			printf("error cd\n");
 		if (tmp_pwd)

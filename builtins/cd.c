@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:26:18 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/16 19:54:57 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/17 15:56:12 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,28 @@ char	*save_pwd(char **tmp_env)
 
 int	cd(t_var *shell, char **tmp_env)
 {
-	char	*tmp_pwd;
+	char	*path;
 
-	tmp_pwd = NULL;
-	tmp_pwd = save_pwd(tmp_env);
+	path = NULL;
+	path = save_pwd(tmp_env);
 	if (!shell->flag && !shell->string)
 		chdir(getenv("HOME"));
-	else if (ft_strcmp(shell->string->content, "~") == 0)
+	else if (ft_strncmp(shell->string->content, "~", 1) == 0)
 	{
-		get_home(tmp_env);
-		// si derrière ~ y'a quelque chose faut strjoin avec le home
-		// mdr
-		if (tmp_pwd)
-			update_oldpwd(tmp_env, tmp_pwd);
+		if (ft_strlen(shell->string->content) == 1)
+			get_home(tmp_env);
+		else
+			path = cd_absolute_path(shell->string->content, path);
+		if (path)
+			update_oldpwd(tmp_env, path);
 		update_pwd(tmp_env);
 	}
 	else if (ft_strcmp(shell->string->content, ".") == 0)
 	{
-		update_oldpwd(tmp_env, tmp_pwd);
+		update_oldpwd(tmp_env, path);
 		return (0);
 	}
 	else
-		cd_2(shell, tmp_env, tmp_pwd);
+		cd_2(shell, tmp_env, path);
 	return (0);
 }
