@@ -43,12 +43,12 @@ int get_space(t_var **tmp)
 return(0);
 }
 
-int read_cmd_user(t_var **shell, char **tmp_env, char *cmd) {
-
+int read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
+ {
+// int flag_in = 0;
+ // int flag_out = 0;
   int i = 0;
   int flag = 0;
- // int flag_in = 0;
- // int flag_out = 0;
   int flag_space = 0;
 
   t_var *tmp = ft_varnew();
@@ -94,9 +94,9 @@ int read_cmd_user(t_var **shell, char **tmp_env, char *cmd) {
     }
     else if (cmd[i] == '$')
     {
-      //if(cmd[i-1] == ' ' && flag_space)
-      //  flag_space = get_space(&tmp);
       i = get_variable(cmd, i, tmp_env, &tmp);
+      if (cmd[i] == ' ')
+        flag_space = 1;
     }
     else if (cmd[i] != ' ' && !flag)
      {
@@ -125,10 +125,9 @@ int read_cmd_user(t_var **shell, char **tmp_env, char *cmd) {
     else
     {
       i = get_string(&tmp, i, cmd, tmp_env);
-      if (cmd[i] == ' ')
+     if (cmd[i] == ' ')
         flag_space = 1;
     }
-    
     if (cmd[i] == ' ' && flag_space) 
       flag_space = get_space(&tmp);
   }

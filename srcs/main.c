@@ -86,5 +86,6 @@ int	main(int argc, char **argv, char **envp)
 			clean_shell(&shell);
 		free(cmd);
 	}
+	
 	return (0);
 }

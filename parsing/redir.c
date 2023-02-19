@@ -55,12 +55,6 @@ int append(t_var **shell, int i, char *cmd) {
   start = i;
   t_list *tmp;
 
-  if (cmd[i] == '>' || cmd[i] == '<') {
-    printf("zsh: parse error near `%c'\n", (cmd[i]));
-    g_exit_statut = 1;
-  } else
-    g_exit_statut = 0;
-
   i = is_forbidden_char(i, cmd);
   tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
   ft_lstadd_back(&(*shell)->redir_append, tmp);
