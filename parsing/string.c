@@ -148,4 +148,3 @@ int get_string(t_var **shell, int i, char *cmd, char **tmp_env) {
     i++;
     return (i);
   }
-  
