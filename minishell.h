@@ -6,13 +6,14 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:38:11 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/17 16:33:23 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/20 12:04:31 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "Get_next_line/get_next_line.h"
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <readline/history.h>
@@ -52,6 +53,11 @@ typedef struct s_var
 	struct s_var	*next;
 }	t_var;
 
+
+void redirection_outfile(t_var **shell, int **files);
+int redirection_infile(t_var **shell);
+
+
 //----------------srcs----------------//
 void	init_struct(t_var **shell);
 char	**env_copy(char **envp);
@@ -63,7 +69,7 @@ int		read_cmd_user(t_var **shell, char **tmp_env, char *cmd);
 int		get_space(t_var **tmp);
 
 //----------------execution----------------//
-void	exec(t_var *shell, char **tmp_env);
+void exec(t_var **shell, char **tmp_env);
 void	redirect(t_var *shell);
 void	handler_sig(int signum);
 int		builtin_no_fork(t_var *shell, char **tmp_env);

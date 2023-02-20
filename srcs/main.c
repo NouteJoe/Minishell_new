@@ -40,24 +40,9 @@ void	clean_shell(t_var **shell)
 		free_list((tmp)->redir_hdoc);
 		free_list((tmp)->flag);
 		free_list((tmp)->string);
+		free(tmp->cmd_arg);
 		free(tmp);
 	}
-}
-
-int	nbr_of_cmd(char *input)
-{
-	int	i;
-	int	nbr_cmd;
-
-	i = 0;
-	nbr_cmd = 0;
-	while (input[i])
-	{
-		if (input[i] == '|')
-			nbr_cmd++;
-		i++;
-	}
-	return (nbr_cmd);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -81,11 +66,10 @@ int	main(int argc, char **argv, char **envp)
 		if (cmd)
 			add_history(cmd);
 		if (read_cmd_user(&shell, tmp_env, cmd) == 0)
-			exec(shell, tmp_env);
+			exec(&shell, tmp_env);
 		if (shell)
 			clean_shell(&shell);
 		free(cmd);
 	}
-	
 	return (0);
 }

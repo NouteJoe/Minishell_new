@@ -6,65 +6,67 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:13:08 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/10 16:54:38 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/20 11:45:07 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	redirection_heredocs(t_var *shell)
-{
-	char	*str;
-	int		fd;
 
-	fd = open(shell->redir_hdoc->content, O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	str = readline("> ");
-	while (str != NULL)
-	{
-		if (str[0])
-		{
-			str = ft_strjoin(str, "\n");
-			ft_putstr_fd(str, fd);
-		}
-		str = readline("> ");
-	}
-	close (fd);
-	shell->infile = open(".heredoc", O_RDONLY);
-	dup2(shell->infile, STDIN_FILENO);
+int redirection_infile(t_var **shell) {
+  int fileDescriptor;
+  fileDescriptor = open((*shell)->redir_input->content, O_RDONLY);
+  if (fileDescriptor < 0) {
+    ft_putstr_fd("error infile\n", 2);
+    return 0;
+  }
+  return fileDescriptor;
 }
 
-void	redirection_infile(t_var *shell)
-{
-	shell->infile = open(shell->redir_input->content, O_RDONLY);
-	if (shell->infile < 0)
-		return (ft_putstr_fd("error infile\n", 2));
-	dup2(shell->infile, STDIN_FILENO);
+
+void redirection_outfile(t_var **shell, int **files) {
+  t_var tmp2 = **shell;
+  t_list *tmp;
+  int i;
+  int filesDescriptor;
+  char *str;
+
+  i = 0;
+  
+  while ((tmp2).redir_output) {
+    filesDescriptor =
+        open((tmp2).redir_output->content, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+    if (filesDescriptor < 0)
+      return ft_putstr_fd("error outfile\n", 2);
+    (*files)[i] = filesDescriptor;
+    i++;
+    tmp2.redir_output = tmp2.redir_output->next;
+  }
+  
+  while ((tmp2).redir_append) {
+    filesDescriptor =
+        open((tmp2).redir_append->content, O_CREAT | O_WRONLY | O_APPEND, 0664);
+    if (filesDescriptor < 0)
+      return ft_putstr_fd("error outfile\n", 2);
+    (*files)[i] = filesDescriptor;
+    i++;
+    tmp2.redir_append = tmp2.redir_append->next;
+  }
+  if ((*shell)->redir_output && (*shell)->redir_output->content) {
+    str =
+        malloc(sizeof(char) * (ft_strlen((*shell)->redir_output->content) + 1));
+    ft_strlcpy(str, (*shell)->redir_output->content,
+               ft_strlen((*shell)->redir_output->content) + 1);
+  }
+
+  else {
+    str =
+        malloc(sizeof(char) * (ft_strlen((*shell)->redir_append->content) + 1));
+    ft_strlcpy(str, (*shell)->redir_append->content,
+               ft_strlen((*shell)->redir_append->content) + 1);
+  }
+  tmp = ft_lstnew(str);
+  if ((*shell)->next)
+    ft_lstadd_back(&(*shell)->next->redir_input, tmp);
 }
 
-void	redirection_outfile(t_var *shell)
-{
-	shell->outfile = open(shell->redir_output->content, O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	if (shell->outfile < 0)
-		return (ft_putstr_fd("error outfile\n", 2));
-	dup2(shell->outfile, STDOUT_FILENO);
-}
-
-void	redirection_append(t_var *shell)
-{
-	shell->outfile = open(shell->redir_append->content, O_CREAT | O_WRONLY | O_APPEND, 0664);
-	if (shell->outfile < 0)
-		return (ft_putstr_fd("error append\n", 2));
-	dup2(shell->outfile, STDOUT_FILENO);	
-}
-
-void	redirect(t_var *shell)
-{
-	if (shell->redir_hdoc)
-		redirection_heredocs(shell);
-	else if (shell->redir_input)
-		redirection_infile(shell);
-	else if (shell->redir_append)
-		redirection_append(shell);
-	else if (shell->redir_output)
-		redirection_outfile(shell);
-}
