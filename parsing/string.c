@@ -129,14 +129,16 @@ int get_string(t_var **shell, int i, char *cmd, char **tmp_env) {
    {
       if (cmd[i] == ' ' && cmd[i + 1] == ' ') 
        {
+        tmp = ft_lstnew(ft_substr(cmd, start, i - start));
+        ft_lstadd_back(&(*shell)->string, tmp);
          while (cmd[i] == ' ' && cmd[i + 1] == ' ')
            i++;
          start = i;
        }
       if (cmd[i] == '$')
       {
-        if ((*shell)->string && (*shell)->string->content)
-            get_space(shell);
+        /*if ((*shell)->string && (*shell)->string->content)
+            get_space(shell);*/
         tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
         ft_lstadd_back(&(*shell)->string, tmp);
         i = get_variable(cmd, i, tmp_env, shell);
@@ -144,8 +146,8 @@ int get_string(t_var **shell, int i, char *cmd, char **tmp_env) {
      } 
      i++;
     }
+  
     tmp = ft_lstnew(ft_substr(cmd, start, i - start));
     ft_lstadd_back(&(*shell)->string, tmp);
-    start = i;
     return (i);
   }

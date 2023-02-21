@@ -49,11 +49,11 @@ int	is_forbidden_char2(int i, char *cmd)
 	while (cmd[i] && cmd[i] == ' ' && cmd[i] != '<' && cmd[i] != '>'
 		&& cmd[i] != '|')
 		i++;
-  /*if (cmd[i] == '>' || cmd[i] == '<') {
+ 	if (cmd[i] == '>' || cmd[i] == '<')
+	{
       printf("zsh: parse error near `%c'\n", (cmd[i]));
-      /////////////////////////
-      // $? zsh: command not found: 1
-    }*/
+      g_exit_statut = 1;
+    }
 	return (i);
 }
 
@@ -61,6 +61,10 @@ int	is_forbidden_char(int i, char *cmd)
 {
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>'
 		&& cmd[i] != '|')
+		{
+		/*	if(cmd[i] == '$')
+			 	get_variable*/
 		i++;
+		}
 	return (i);
 }

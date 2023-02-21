@@ -48,7 +48,6 @@ return(0);
 int read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
  {
   int i = 0;
-  int flag = 0;
   int flag_space = 0;
 
   t_var *tmp = ft_varnew();
@@ -74,48 +73,33 @@ int read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
         i = output_file(&tmp, i, cmd);
         ////////////////////////////////////////////
     else if (cmd[i] == '$')
-    {
       i = get_variable(cmd, i, tmp_env, &tmp);
-      if (cmd[i] == ' ')
-        flag_space = 1;
-    }
-    else if (cmd[i] != ' ' && !flag)
-     {
-      flag = 1;
+    else if (cmd[i] != ' ' && !tmp->cmd_arg)
       i = get_cmd(&tmp, i, cmd);
-    } 
-    else if (cmd && cmd[i] == '-' && cmd[i - 1] == ' ') //////// segfault?
+    else if (cmd && cmd[i] == '-' && cmd[i - 1] == ' ')
       i = get_flag_cmd(&tmp, i, cmd);
     else if (cmd[i] == '\"')
-     {
       i = get_string_double(&tmp, i, cmd, tmp_env);
-      flag_space = 1;
-    } 
     else if (cmd[i] == '\'') 
-    {
       i = get_string_simple(&tmp, i, cmd);
-      flag_space = 1;
-    } 
     else if (cmd[i] == '|') 
     {
-      flag = 0;
       ft_varadd_back(shell, tmp);
       tmp = ft_varnew();
       i++;
     } 
     else
-    {
       i = get_string(&tmp, i, cmd, tmp_env);
-      printf("ici : %d\n", cmd[i]);
-      printf("number: %d\n", i);
-      if (cmd && cmd[i] == ' ')
-        flag_space = 1; /////////// a verifier
+
+
+     if (cmd[i] == ' ' &&  tmp->string && tmp->string->content) 
+      flag_space = get_space(&tmp);
     }
 
-    if (cmd[i] == ' ' && flag_space) 
-      flag_space = get_space(&tmp);
-  }
-  ft_varadd_back(shell, tmp);
+    /*if (!(*shell))
+        *shell = tmp;*/
+    
+    ft_varadd_back(shell, tmp);
   }
   else
   {
