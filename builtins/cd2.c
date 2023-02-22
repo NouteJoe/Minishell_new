@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 19:08:49 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/17 15:56:36 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/21 16:11:19 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ int	cd_2(t_var *shell, char **tmp_env, char *tmp_pwd)
 	{
 		path = create_new_pwd(tmp_pwd, shell->string->content);
 		if (chdir(path) == -1)
+		{
 			printf("error cd\n");
+			g_exit_statut = 1;
+		}
 		if (tmp_pwd)
 			update_oldpwd(tmp_env, path);
 		update_pwd(tmp_env);

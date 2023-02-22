@@ -6,13 +6,13 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:07:20 by mfusil            #+#    #+#             */
-/*   Updated: 2023/01/24 18:20:46 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:53:16 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*pwd(char **tmp_env)
+int	pwd(char **tmp_env)
 {
 	char	*path_pwd;
 	int		i;
@@ -25,5 +25,6 @@ char	*pwd(char **tmp_env)
 			path_pwd = &tmp_env[i][4];
 		i++;
 	}
-	return (path_pwd);
+	printf("%s\n", path_pwd);
+	return (0);
 }

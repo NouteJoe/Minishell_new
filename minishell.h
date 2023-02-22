@@ -6,14 +6,14 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:38:11 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/20 12:04:31 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:56:29 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "Get_next_line/get_next_line.h"
+# include "GnL/get_next_line.h"
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <readline/history.h>
@@ -53,11 +53,6 @@ typedef struct s_var
 	struct s_var	*next;
 }	t_var;
 
-
-void redirection_outfile(t_var **shell, int **files);
-int redirection_infile(t_var **shell);
-
-
 //----------------srcs----------------//
 void	init_struct(t_var **shell);
 char	**env_copy(char **envp);
@@ -66,13 +61,15 @@ char	**env_copy(char **envp);
 int		get_flag_cmd(t_var **shell, int i, char *cmd);
 int		get_cmd(t_var **shell, int i, char *cmd);
 int		read_cmd_user(t_var **shell, char **tmp_env, char *cmd);
-int		get_space(t_var **tmp);
+void		get_space(t_var **tmp);
 
 //----------------execution----------------//
-void exec(t_var **shell, char **tmp_env);
+void	exec(t_var **shell, char ***tmp_env);
 void	redirect(t_var *shell);
 void	handler_sig(int signum);
-int		builtin_no_fork(t_var *shell, char **tmp_env);
+int		builtin_no_fork(t_var *shell, char ***tmp_env);
+void	redirection_outfile(t_var **shell, int **files);
+int		redirection_infile(t_var **shell);
 
 //----------------structvar----------------//
 void	ft_varadd_back(t_var **var, t_var *n);
@@ -97,13 +94,13 @@ int		get_string_simple(t_var **shell, int i, char *cmd);
 int		get_string(t_var **shell, int i, char *cmd, char **tmp_env);
 //int scan_tmp_env(char **tmp_env, char *str, int j, t_var **shell);
 
-
 //----------------builtins----------------//
-char	*pwd(char **tmp_env);
-void	env(char **tmp_env);
-void	echo(t_var *shell);
-int		export(t_var *shell, char **tmp_env);
+int		pwd(char **tmp_env);
+int		env(char ***tmp_env);
+int		echo(t_var *shell);
+int		export(t_var *shell, char ***tmp_env);
 int		lexit(t_var *shell);
+int		unset(t_var *shell, char ***envp);
 
 //----------------cd----------------//
 int		cd(t_var *shell, char **tmp_env);
@@ -117,9 +114,5 @@ char	*cd_absolute_path(char *string, char *path);
 
 //----------------utils----------------//
 char	*ft_find_path(char **env, char *cmd);
-
-
-
-
 
 #endif

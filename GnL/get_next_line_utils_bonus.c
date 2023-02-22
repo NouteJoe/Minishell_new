@@ -1,28 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 19:25:32 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 17:05:57 by mfusil           ###   ########.fr       */
+/*   Created: 2022/04/28 18:29:37 by jmuni-re          #+#    #+#             */
+/*   Updated: 2022/04/28 18:30:06 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
-
-int	env(char ***tmp_env)
-{
-	int	i;
-
-	i = 0;
-	while ((*tmp_env)[i])
-	{
-		ft_putstr((*tmp_env)[i]);
-		printf("\n");
-		i++;
-	}
-	g_exit_statut = 0;
-	return (0);
-}

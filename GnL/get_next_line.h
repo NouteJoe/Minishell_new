@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 19:25:32 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 17:05:57 by mfusil           ###   ########.fr       */
+/*   Created: 2022/03/28 17:42:38 by jmuni-re          #+#    #+#             */
+/*   Updated: 2022/04/29 19:27:19 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
-#include "../minishell.h"
+char	*get_next_line(int fd);
+char	*ft_realloc_cat(char *line, char c, int *len);
 
-int	env(char ***tmp_env)
-{
-	int	i;
-
-	i = 0;
-	while ((*tmp_env)[i])
-	{
-		ft_putstr((*tmp_env)[i]);
-		printf("\n");
-		i++;
-	}
-	g_exit_statut = 0;
-	return (0);
-}
+#endif

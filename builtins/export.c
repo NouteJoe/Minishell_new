@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:07:21 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/20 11:27:27 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:13:21 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ char	**new_env(t_var *shell, char ***tmp_env)
 		free((*tmp_env)[i]);
 		i++;
 	}
-	tmp[i] = shell->string->content;
+	tmp[i] = ft_strdup(shell->string->content);
 	i++;
 	tmp[i] = NULL;
-	*tmp_env = tmp;
-	return (NULL);
+	free(*tmp_env);
+	return (tmp);
 }
 
 int	var_in_env(char **tmp_env, char *string)
@@ -70,7 +70,7 @@ void	change_variable_in_env(char **tmp_env, char *string)
 	}
 }
 
-int	export(t_var *shell, char **tmp_env)
+int	export(t_var *shell, char ***tmp_env)
 {
 	g_exit_statut = 0;
 	if (!ft_strchr(shell->string->content, '='))
@@ -79,10 +79,10 @@ int	export(t_var *shell, char **tmp_env)
 		return (printf("no argument with export\n"));
 	if (shell->string->content)
 	{
-		if (var_in_env(tmp_env, shell->string->content) == 0)
-			change_variable_in_env(tmp_env, shell->string->content);
+		if (var_in_env(*tmp_env, shell->string->content) == 0)
+			change_variable_in_env(*tmp_env, shell->string->content);
 		else
-			new_env(shell, &tmp_env);
+			(*tmp_env) = new_env(shell, tmp_env);
 	}
 	return (0);
 }

@@ -34,7 +34,7 @@ int get_cmd(t_var **shell, int i, char *cmd)
   return (i);
 }
 
-int get_space(t_var **tmp)
+void get_space(t_var **tmp)
 {
   char *c;
    t_list *space;
@@ -42,40 +42,42 @@ int get_space(t_var **tmp)
   c = ft_substr(" ", 0, 1);
   space = ft_lstnew(c);
   ft_lstadd_back(&(*tmp)->string, space);
-return(0);
 }
 
 int read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
  {
   int i = 0;
-  int flag_space = 0;
 
   t_var *tmp = ft_varnew();
   if (is_double_quote(cmd) % 2 == 0 && is_simple_quote(cmd) % 2 == 0)
   {
     while (cmd && cmd[i]) 
     {
-      //////////////////////////////////
+    
+
+    
     while (cmd[i] == ' ')
       i++;
-    if (ft_strncmp(&cmd[i], "<<", 2) == 0) 
-      i = here_doc(&tmp, i, cmd);
-    else if (cmd[i] == '<') 
+    if (ft_strncmp(&cmd[i], "<<", 2) == 0) // && !tmp-> redir_input->content
+      i = here_doc(&tmp, i, cmd); 
+    else if (cmd[i] == '<') // && !tmp->redir_heredoc->content
        i = input_file(&tmp, i, cmd);
-    else if (ft_strncmp(&cmd[i], ">>", 2) == 0) 
+    else if (ft_strncmp(&cmd[i], ">>", 2) == 0) //&& !tmp->redir_output
     {
      /*if((*tmp).redir_output)   
         printf("outfile or append, make your choice\n");
       else*/
       i = append(&tmp, i, cmd);
     } 
-    else if (cmd[i] == '>') 
+    else if (cmd[i] == '>') //&& !tmp->redir_append
         i = output_file(&tmp, i, cmd);
-        ////////////////////////////////////////////
     else if (cmd[i] == '$')
       i = get_variable(cmd, i, tmp_env, &tmp);
     else if (cmd[i] != ' ' && !tmp->cmd_arg)
       i = get_cmd(&tmp, i, cmd);
+
+
+
     else if (cmd && cmd[i] == '-' && cmd[i - 1] == ' ')
       i = get_flag_cmd(&tmp, i, cmd);
     else if (cmd[i] == '\"')
@@ -90,15 +92,9 @@ int read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
     } 
     else
       i = get_string(&tmp, i, cmd, tmp_env);
-
-
      if (cmd[i] == ' ' &&  tmp->string && tmp->string->content) 
-      flag_space = get_space(&tmp);
+      get_space(&tmp);
     }
-
-    /*if (!(*shell))
-        *shell = tmp;*/
-    
     ft_varadd_back(shell, tmp);
   }
   else

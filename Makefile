@@ -6,7 +6,7 @@
 #    By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/20 18:45:16 by mfusil            #+#    #+#              #
-#    Updated: 2023/02/20 12:08:54 by mfusil           ###   ########.fr        #
+#    Updated: 2023/02/20 17:05:50 by mfusil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,10 @@ BUILTINS = builtins/pwd.c\
 		   builtins/cd.c\
 		   builtins/cd2.c\
 		   builtins/export.c\
-		   builtins/exit.c
+		   builtins/exit.c\
+		   builtins/unset.c
 
-GETNEXTLINE = Get_next_line/get_next_line.c
+GNL = GnL/get_next_line.c
 
 STRUCT = structvar/ft_addback.c\
 		structvar/ft_varnew.c
@@ -52,7 +53,7 @@ ALL_SRCS = $(SRCS)\
 		   $(BUILTINS)\
 		   $(UTILS)\
 		   $(STRUCT)\
-		   $(GETNEXTLINE) 
+		   $(GNL) 
 
 
 OBJS = $(ALL_SRCS:.c=.o)
@@ -69,7 +70,7 @@ alln : all
 
 $(NAME) : $(OBJS)
 		$(RE_LIBFT)
-		gcc $(CFLAG) -o $(NAME) $(OBJS) $(LIBFT) $(LDFLAGS) $(CPPFLAGS)  -lreadline 
+		gcc $(CFLAG) -o $(NAME) $(OBJS) $(LIBFT) $(LDFLAGS) $(CPPFLAGS)  -lreadline
 		@echo "$(GREEN)$(BOLD)Minishell Executable Created"
 
 clean :

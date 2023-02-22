@@ -1,66 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 14:07:03 by jmuni-re          #+#    #+#             */
+/*   Updated: 2023/02/21 14:08:37 by jmuni-re         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int here_doc(t_var **shell, int i, char *cmd) {
-  int start;
+int	here_doc(t_var **shell, int i, char *cmd)
+{
+	int		start;
+	t_list	*tmp;
 
-  t_list *tmp;
-
-  i = i + 2;
-  i = is_forbidden_char2(i, cmd);
-  start = i;
-  i = is_forbidden_char(i, cmd);
-  tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
-  ft_lstadd_back(&(*shell)->redir_hdoc, tmp);
-  return (i);
+	i = i + 2;
+	i = is_forbidden_char2(i, cmd);
+	start = i;
+	i = is_forbidden_char(i, cmd);
+	tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
+	ft_lstadd_back(&(*shell)->redir_hdoc, tmp);
+	return (i);
 }
 
-int input_file(t_var **shell, int i, char *cmd) {
-  int start;
+int	input_file(t_var **shell, int i, char *cmd)
+{
+	int		start;
+	t_list	*tmp;
 
-  i++;
-  i = is_forbidden_char2(i, cmd);
-  start = i;
-  i = is_forbidden_char(i, cmd);
-  t_list *tmp;
-
-  tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
-  ft_lstadd_back(&(*shell)->redir_input, tmp);
-  return (i);
+	i++;
+	i = is_forbidden_char2(i, cmd);
+	start = i;
+	i = is_forbidden_char(i, cmd);
+	tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
+	ft_lstadd_back(&(*shell)->redir_input, tmp);
+  printf("%s\n", (*shell)->redir_input->content);////////////////////
+	return (i);
 }
 
-int output_file(t_var **shell, int i, char *cmd) {
-  int start;
+int	output_file(t_var **shell, int i, char *cmd)
+{
+	int		start;
+	t_list	*tmp;
 
-  i = i + 1;
-  start = i;
-  t_list *tmp;
-
-  if (cmd[i] == '>' || cmd[i] == '<') {
-    printf("zsh: parse error near `%c'\n", (cmd[i]));
-    g_exit_statut = 127;
-  } else
-    g_exit_statut = 0;
-
-  i = is_forbidden_char2(i, cmd);
-  start = i;
-  i = is_forbidden_char(i, cmd);
-  tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
-  ft_lstadd_back(&(*shell)->redir_output, tmp);
-  return (i);
+	i = i + 1;
+	start = i;
+	i = is_forbidden_char2(i, cmd);
+	start = i;
+	i = is_forbidden_char(i, cmd);
+	tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
+	ft_lstadd_back(&(*shell)->redir_output, tmp);
+	return (i);
 }
 
-int append(t_var **shell, int i, char *cmd) {
-  int start;
+int	append(t_var **shell, int i, char *cmd)
+{
+	int		start;
+	t_list	*tmp;
 
-  i = i + 2;
-  start = i;
-  t_list *tmp;
-
-  i = is_forbidden_char2(i, cmd);
-  start = i;
-  i = is_forbidden_char(i, cmd);
-  
-  tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
-  ft_lstadd_back(&(*shell)->redir_append, tmp);
-  return (i);
+	i = i + 2;
+	start = i;
+	i = is_forbidden_char2(i, cmd);
+	start = i;
+	i = is_forbidden_char(i, cmd);
+	tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
+	ft_lstadd_back(&(*shell)->redir_append, tmp);
+	return (i);
 }
