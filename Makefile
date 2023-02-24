@@ -27,7 +27,8 @@ PARSING = parsing/parsing.c\
 		parsing/path.c\
 		parsing/verification.c\
 		parsing/string.c\
-		parsing/get_cmd.c
+		parsing/get_cmd.c\
+		parsing/variable.c
 
 EXEC = exec/exec.c\
 	   exec/signal.c\

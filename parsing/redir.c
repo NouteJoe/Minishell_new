@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:07:03 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/21 14:08:37 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:26:42 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	input_file(t_var **shell, int i, char *cmd)
 	i = is_forbidden_char(i, cmd);
 	tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
 	ft_lstadd_back(&(*shell)->redir_input, tmp);
-  printf("%s\n", (*shell)->redir_input->content);////////////////////
 	return (i);
 }
 
