@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:13:08 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/23 16:44:35 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 10:17:51 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ int redirection_infile(t_var **shell)
 {
 	int fd;
 	fd = open((*shell)->redir_input->content, O_RDONLY);
-	if (fd < 0) {
+	if (fd < 0)
+	{
 		ft_putstr_fd("error infile\n", 2);
-		return 0;
+		return (1);
 	}
-	return fd;
+	return (fd);
 }
 
 void redirection_outfile(t_var **shell, int **files)
@@ -57,7 +58,6 @@ void redirection_outfile(t_var **shell, int **files)
 	char *str;
 
 	i = 0;
-	
 	while ((tmp2).redir_output) {
 		fd =
 				open((tmp2).redir_output->content, O_WRONLY | O_TRUNC | O_CREAT, 0664);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
+/*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:04:07 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 10:07:40 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:35:15 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int new_shell(t_var *tmp, t_var **shell, int i)
 	i++;
 	return (i);
 }
-
 
 int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 {

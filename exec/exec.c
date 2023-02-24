@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:28:30 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/23 16:46:07 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 10:58:17 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,20 @@ int	builtin_fork(t_var *shell, char **tmp_env)
 	{
 		if (execve(ft_find_path(tmp_env, shell->cmd_arg), ft_create_tab(shell),
 				tmp_env) == -1)
+		{
 			printf("cmd don't exist\n");
+			g_exit_statut = 127;
+		}
 	}
 	return (1);
 }
 
-int process(t_var *shell, char **tmp_env, int tmp, int *outfiles, int infiles) {
+int process(t_var *shell, char **tmp_env, int tmp, int *outfiles, int infiles)
+{
   pid_t pid;
   int status;
   status = 0;
   pipe(shell->pipe);
-  // TODO process open file and redirection
   pid = fork();
   if (pid == 0) {
 	if (shell->redir_input) {
@@ -136,6 +139,8 @@ void	exec(t_var **shell, char ***tmp_env)
 				while ((tmp2)->redir_input)
 				{
 					infiles = redirection_infile(&tmp2);
+					if (infiles == 1)
+						return ;
 					if (tmp2->redir_output || tmp2->redir_append)
 					{
 						(*shell)->save_output = dup(STDOUT_FILENO);
