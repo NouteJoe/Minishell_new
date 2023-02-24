@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:01:24 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/24 11:18:25 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 15:10:48 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	echo(t_var *shell)
 		printf("%s", shell->string->content);
 		shell->string = shell->string->next;
 	}
-	//if (ft_strcmp(shell->flag->content, "-n") != 0)
+	if (!shell->flag || !shell->flag->content
+		|| ft_strcmp(shell->flag->content, "-n") != 0)
 		printf("\n");
 	return (0);
 }

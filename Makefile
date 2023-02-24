@@ -6,7 +6,7 @@
 #    By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/20 18:45:16 by mfusil            #+#    #+#              #
-#    Updated: 2023/02/20 17:05:50 by mfusil           ###   ########.fr        #
+#    Updated: 2023/02/24 15:02:58 by mfusil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT = Libft/libft.a
 
 LDFLAGS = -L/goinfre/$(USER)/.brew/Cellar/readline/8.2.1/lib/
 CPPFLAGS = -I/goinfre/$(USER)/.brew/Cellar/readline/8.2.1/include
-CFLAG = -g -Wall -Wextra -Werror 
+CFLAG = -g -Wall -Wextra -Werror -fsanitize=address
 	
 SRCS =	srcs/main.c\
 		srcs/init_struct.c\
