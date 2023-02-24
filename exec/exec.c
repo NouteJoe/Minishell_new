@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:28:30 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 16:52:06 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/23 16:46:07 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,39 +56,6 @@ int	builtin_fork(t_var *shell, char **tmp_env)
 	}
 	return (1);
 }
-
-// void	child_process(t_var *shell, char **tmp_env)
-// {
-// 	close(shell->pipe[0]);
-// 	builtin_fork(shell, tmp_env);
-// 	exit(1);
-// }
-
-// int	process(t_var *shell, char **tmp_env, int tmp)
-// {
-// 	pid_t	pid;
-// 	int		status;
-
-// 	status = 0;
-// 	pipe(shell->pipe);
-// 	// TODO process open file and redirection
-// 	pid = fork();
-
-// 	if (pid == 0)
-// 	{
-// 		dup2(tmp, STDIN_FILENO);
-// 		if (shell->next)
-// 			dup2(shell->pipe[1], STDOUT_FILENO);
-// 		child_process(shell, tmp_env);
-// 	}
-// 	else
-// 	{
-// 		dup2(shell->pipe[0], tmp);
-// 		close(shell->pipe[1]);
-// 		wait(NULL);
-// 	}
-// 	return (status);
-// }
 
 int process(t_var *shell, char **tmp_env, int tmp, int *outfiles, int infiles) {
   pid_t pid;
@@ -191,6 +158,26 @@ void	exec(t_var **shell, char ***tmp_env)
 					(tmp2)->redir_input = (tmp2)->redir_input->next;
 				}
 			}
+			else if ((tmp2)->redir_hdoc)
+			{
+				if (tmp2->redir_output || tmp2->redir_append)
+				{
+					(*shell)->save_output = dup(STDOUT_FILENO);
+					close(STDOUT_FILENO);
+					redirection_outfile(&tmp2, &outfiles);
+					dup2(outfiles[0], STDOUT_FILENO);
+				}
+				redirection_hdoc(tmp2->redir_hdoc->content);
+				while (i != ft_lstsize((tmp2)->redir_output)
+					+ ft_lstsize((tmp2)->redir_append))
+				{
+					close(outfiles[i]);
+					i++;
+				}
+				if (tmp2->redir_output || tmp2->redir_append)
+					dup2((*shell)->save_output, STDOUT_FILENO);
+				process(tmp2, *tmp_env, (*shell)->save_input, outfiles, infiles);
+			}
 			else if ((tmp2->redir_output || tmp2->redir_append)
 				&& !tmp2->redir_input)
 			{
@@ -208,20 +195,8 @@ void	exec(t_var **shell, char ***tmp_env)
 				}
 				dup2((*shell)->save_output, STDOUT_FILENO);
 			}
-			/**else if ((tmp2)->redir_hdoc)
-			{
-				redirection_hdoc(&tmp2, &outfiles);
-				while (i != ft_lstsize((tmp2)->redir_output)
-					+ ft_lstsize((tmp2)->redir_append))
-				{
-					close(outfiles[i]);
-					i++;
-				}
-			}**/
 			else
-			{
 				process(tmp2, *tmp_env, (*shell)->save_input, outfiles, infiles);
-			}
 			tmp2 = tmp2->next;
 		}
 	}

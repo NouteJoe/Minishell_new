@@ -6,20 +6,36 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:13:08 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 15:19:35 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/23 16:44:35 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/**void	redirection_hdoc(t_var **shell)
+void	redirection_hdoc(char *line)
 {
 	char	*str;
+	int		size;
 	int		fd;
 
-	fd = open((*shell)->redir_hdoc->content, O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	str = readline("> ");
-}**/
+	fd = open(line, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	size = ft_strlen(line);
+	while (42)
+	{
+		signal(SIGINT, handler_sig);
+		signal(SIGQUIT, handler_sig);
+		str = readline("> ");
+		if (!str || (!ft_strncmp(line, str, size)))
+		{
+			close(fd);
+			free(str);
+			break ;
+		}
+		ft_putendl_fd(str, fd, 0);
+		free(str);
+	}
+	close(fd);
+}
 
 int redirection_infile(t_var **shell)
 {

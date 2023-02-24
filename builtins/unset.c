@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:36:29 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/20 18:19:18 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/23 16:46:29 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**new_envp(char **envp, char *string)
 		}
 		ft_free_tab(tmp);
 	}
+	i--;
 	tab[i] = NULL;
 	return (tab);
 }

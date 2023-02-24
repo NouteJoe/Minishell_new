@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:38:11 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 15:56:29 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/23 16:44:49 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,19 @@ void	init_struct(t_var **shell);
 char	**env_copy(char **envp);
 
 //----------------parsing----------------//
+int		check_cmd_user(t_var *tmp, char **tmp_env, char *cmd, int i);
+int		check_cmd_user2(t_var *tmp, char **tmp_env, char *cmd, int i);
+int		read_cmd_user(t_var **shell, char **tmp_env, char *cmd);
+
+
+//----------------get_cmd----------------//
 int		get_flag_cmd(t_var **shell, int i, char *cmd);
 int		get_cmd(t_var **shell, int i, char *cmd);
-int		read_cmd_user(t_var **shell, char **tmp_env, char *cmd);
-void		get_space(t_var **tmp);
+void	get_space(t_var **tmp);
 
 //----------------execution----------------//
 void	exec(t_var **shell, char ***tmp_env);
-void	redirect(t_var *shell);
+void	redirection_hdoc(char *line);
 void	handler_sig(int signum);
 int		builtin_no_fork(t_var *shell, char ***tmp_env);
 void	redirection_outfile(t_var **shell, int **files);
