@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:04:07 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 10:35:15 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 11:13:28 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_cmd_user(t_var *tmp, char **tmp_env, char *cmd, int i)
 	return (i);
 }
 
-int new_shell(t_var *tmp, t_var **shell, int i)
+int	new_shell(t_var *tmp, t_var **shell, int i)
 {
 	ft_varadd_back(shell, tmp);
 	tmp = ft_varnew();
