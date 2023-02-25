@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:10:24 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/22 10:27:38 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/25 12:57:39 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ int	get_string_simple(t_var **shell, int i, char *cmd)
 	ft_lstadd_back(&(*shell)->string, tmp);
 	i++;
 	return (i);
-}/*
-void new_list(t_var *tmp,)
+}
 
-*/
 int	get_string(t_var **shell, int i, char *cmd, char **tmp_env)
 {
 	int		start;
