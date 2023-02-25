@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:26:18 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/17 15:56:12 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:35:25 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	cd(t_var *shell, char **tmp_env)
 	path = NULL;
 	path = save_pwd(tmp_env);
 	if (!shell->flag && !shell->string)
-		chdir(getenv("HOME"));
+	{
+		get_home(tmp_env);
+		update_pwd(tmp_env);
+	}
 	else if (ft_strncmp(shell->string->content, "~", 1) == 0)
 	{
 		if (ft_strlen(shell->string->content) == 1)

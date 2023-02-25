@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:23:15 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/24 10:25:48 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:33:01 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ char	**ft_find_line_env(char **env, char *cmd)
 	i = -1;
 	line = NULL;
 	if (!cmd)
-		return (NULL);
+		return NULL;//TODO
 	while (env[++i])
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 			break ;
 	if (!env[i])
-		return (NULL);
+		return NULL; // TODO;
 	line = &(env[i][5]);
 	path = ft_split(line, ':');
 	return (path);
@@ -48,5 +48,6 @@ char	*ft_find_path(char **env, char *cmd)
 		if (access(path[i], F_OK) == 0)
 			return (path[i]);
 	}
+	// ft_error(5); // TODO 
 	return (NULL);
 }

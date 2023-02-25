@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 09:04:07 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 11:13:28 by mfusil           ###   ########.fr       */
+/*   Created: 2023/02/25 10:20:52 by jmuni-re          #+#    #+#             */
+/*   Updated: 2023/02/25 10:20:59 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	check_cmd_user(t_var *tmp, char **tmp_env, char *cmd, int i)
 	return (i);
 }
 
-int	new_shell(t_var *tmp, t_var **shell, int i)
+int	new_shell(t_var **tmp, t_var **shell, int i)
 {
-	ft_varadd_back(shell, tmp);
-	tmp = ft_varnew();
+	ft_varadd_back(shell, *tmp);
+	*tmp = ft_varnew();
 	i++;
 	return (i);
 }
@@ -55,8 +55,11 @@ int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 
 	tmp = ft_varnew();
 	i = 0;
-	if (is_double_quote(cmd) % 2 == 0 && is_simple_quote(cmd) % 2 == 0)
+	if (is_double_quote(cmd) % 2 != 0 && is_simple_quote(cmd) % 2 != 0)
 	{
+		printf("Error: missing quote\n");
+		return (1);
+	}
 		while (cmd && cmd[i])
 		{
 			start = i;
@@ -64,7 +67,7 @@ int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 			if (i == start)
 			{
 				if (cmd[i] == '|')
-					i = new_shell(tmp, shell, i);
+					i = new_shell(&tmp, shell, i);	
 				else
 					i = get_string(&tmp, i, cmd, tmp_env);
 			}
@@ -72,11 +75,5 @@ int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 				get_space(&tmp);
 		}
 		ft_varadd_back(shell, tmp);
-	}
-	else
-	{
-		printf("Error: missing quote\n");
-		return (1);
-	}
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:39:20 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 10:42:46 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/25 11:27:42 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_statut(t_var **shell)
+int	exit_statut(t_var **shell, int i)
 {
 	t_list	*number;
 	char	*str;
@@ -26,6 +26,8 @@ void	exit_statut(t_var **shell)
 		number = ft_lstnew((char *)ft_substr(str, 0, 4));
 		ft_lstadd_back(&(*shell)->string, number);
 	}
+	i++;
+	return(i);
 }
 
 int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
@@ -38,8 +40,8 @@ int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
 	str = NULL;
 	size = 0;
 	i++;
-	if (cmd[i++] == '?')
-		exit_statut(shell);
+	if (cmd[i] == '?')
+		i = exit_statut(shell, i);
 	size = is_forbidden_char(size, cmd);
 	str = malloc(sizeof(char) * size + 1);
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '|' && cmd[i] != '"'

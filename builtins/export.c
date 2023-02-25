@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:07:21 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/24 10:56:58 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 15:52:32 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,17 @@ int	verif_export(t_var *shell)
 
 int	export(t_var *shell, char ***tmp_env)
 {
+	g_exit_statut = 0;
 	if (verif_export(shell))
 	{
 		g_exit_statut = 1;
 		return (printf("error with export\n"));
 	}
 	if (shell->string->content == NULL)
+	{
+		g_exit_statut = 1;
 		return (printf("no argument with export\n"));
+	}
 	if (shell->string->content)
 	{
 		if (var_in_env(*tmp_env, shell->string->content) == 0)

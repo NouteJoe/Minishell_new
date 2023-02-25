@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:28:30 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/24 14:58:01 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:10:25 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ char	**ft_create_tab(t_var *shell)
 		shell->flag = shell->flag->next;
 		i++;
 	}
+	if (shell->string)
+		tmp[i] = shell->string->content;
+	i++;
 	tmp[i] = NULL;
 	return (tmp);
 }
@@ -52,68 +55,77 @@ int	builtin_fork(t_var *shell, char **tmp_env)
 	{
 		if (execve(ft_find_path(tmp_env, shell->cmd_arg), ft_create_tab(shell),
 				tmp_env) == -1)
-		{
 			printf("cmd don't exist\n");
-			g_exit_statut = 127;
-		}
 	}
 	return (1);
 }
 
-int process(t_var *shell, char **tmp_env, int tmp, int *outfiles, int infiles)
+void	parent_process(t_var *shell, int tmp)
 {
-  pid_t pid;
-  int status;
-  status = 0;
-  pipe(shell->pipe);
-  pid = fork();
-  if (pid == 0) {
-	if (shell->redir_input) {
-	  dup2(infiles, STDIN_FILENO);
-	} else
-	  dup2(tmp, STDIN_FILENO);
-	if (shell->next && shell->redir_output) {
-	  dup2(outfiles[0], STDOUT_FILENO);
-	} else if (shell->next) {
-	  dup2(shell->pipe[1], STDOUT_FILENO);
-	}
-	close(shell->pipe[0]);
-	builtin_fork(shell, tmp_env);
-	exit(1);
-  } else {
 	dup2(shell->pipe[0], tmp);
 	close(shell->pipe[1]);
 	wait(NULL);
-  }
-  return (status);
 }
 
-void redirout(int *outfiles, t_var *shell) {
-  char *str;
-  int i = 1;
-  int outfile;
-  int flag = 0;
-  int tmp = outfiles[0];
-  close(outfiles[0]);
-  if (shell->redir_output) {
-	outfile = open((shell)->redir_output->content, O_RDONLY);
-	if (outfile == tmp)
-	  flag = 1;
-  }
-  if (shell->redir_output && flag != 1) {
-	outfile = open((shell)->redir_output->content, O_RDONLY);
-  }
+int	process(t_var *shell, char **tmp_env, int tmp, int *outfiles, int infiles)
+{
+	pid_t	pid;
+	int		status;
 
-  str = get_next_line(outfile);
-  while (str) {
-	while (i != ft_lstsize((shell)->redir_output) +
-					ft_lstsize((shell)->redir_append)) {
-	  write(outfiles[i], str, ft_strlen(str));
-	  i++;
+	status = 0;
+	pipe(shell->pipe);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (shell->redir_input)
+			dup2(infiles, STDIN_FILENO);
+		else
+			dup2(tmp, STDIN_FILENO);
+		if (shell->next && shell->redir_output)
+			dup2(outfiles[0], STDOUT_FILENO);
+		else if (shell->next)
+			dup2(shell->pipe[1], STDOUT_FILENO);
+		close(shell->pipe[0]);
+		builtin_fork(shell, tmp_env);
+		exit(1);
 	}
-	str = get_next_line(outfile);
+	else
+		parent_process(shell, tmp);
+	return (status);
+}
+
+void	redirout(int *outfiles, t_var *shell)
+{
+	char	*str;
+	int		i;
+	int		outfile;
+	int		flag;
+	int		tmp;
+
 	i = 1;
-  }
+	flag = 0;
+	tmp = outfiles[0];
+	close(outfiles[0]);
+	if (shell->redir_output)
+	{
+		outfile = open((shell)->redir_output->content, O_RDONLY);
+		if (outfile == tmp)
+			flag = 1;
+	}
+	if (shell->redir_output && flag != 1)
+		outfile = open((shell)->redir_output->content, O_RDONLY);
+	str = get_next_line(outfile);
+	while (str)
+	{
+		while (i != ft_lstsize((shell)->redir_output)
+			+ ft_lstsize((shell)->redir_append))
+		{
+			write(outfiles[i], str, ft_strlen(str));
+			i++;
+		}
+		str = get_next_line(outfile);
+		i = 1;
+	}
 }
 
 void	exec(t_var **shell, char ***tmp_env)
